@@ -1,0 +1,117 @@
+{
+  "temperature_statistics_by_season": [
+    {
+      "season": "Verano",
+      "media": 22.97,
+      "mediana": 22.44,
+      "minimo": 6.91,
+      "maximo": 41.18
+    },
+    {
+      "season": "Otoño",
+      "media": 17.25,
+      "mediana": 17.18,
+      "minimo": -3.23,
+      "maximo": 36.40
+    },
+    {
+      "season": "Invierno",
+      "media": 10.91,
+      "mediana": 10.43,
+      "minimo": -5.95,
+      "maximo": 36.83
+    },
+    {
+      "season": "Primavera",
+      "media": 17.96,
+      "mediana": 17.61,
+      "minimo": -2.55,
+      "maximo": 40.09
+    }
+  ],
+  "charts_ready": {
+    "bar_chart_mean": [
+      {
+        "season": "Verano",
+        "temperatura_media": 22.97
+      },
+      {
+        "season": "Otoño",
+        "temperatura_media": 17.25
+      },
+      {
+        "season": "Invierno",
+        "temperatura_media": 10.91
+      },
+      {
+        "season": "Primavera",
+        "temperatura_media": 17.96
+      }
+    ],
+    "range_chart": [
+      {
+        "season": "Verano",
+        "min": 6.91,
+        "max": 41.18
+      },
+      {
+        "season": "Otoño",
+        "min": -3.23,
+        "max": 36.40
+      },
+      {
+        "season": "Invierno",
+        "min": -5.95,
+        "max": 36.83
+      },
+      {
+        "season": "Primavera",
+        "min": -2.55,
+        "max": 40.09
+      }
+    ],
+    "boxplot_like_dataset": [
+      {
+        "season": "Verano",
+        "median": 22.44,
+        "mean": 22.97,
+        "min": 6.91,
+        "max": 41.18
+      },
+      {
+        "season": "Otoño",
+        "median": 17.18,
+        "mean": 17.25,
+        "min": -3.23,
+        "max": 36.40
+      },
+      {
+        "season": "Invierno",
+        "median": 10.43,
+        "mean": 10.91,
+        "min": -5.95,
+        "max": 36.83
+      },
+      {
+        "season": "Primavera",
+        "median": 17.61,
+        "mean": 17.96,
+        "min": -2.55,
+        "max": 40.09
+      }
+    ]
+  },
+  "insights": {
+    "season_hottest": "Verano",
+    "season_coldest": "Invierno",
+    "lowest_temperature_recorded": {
+      "season": "Invierno",
+      "value": -5.95
+    },
+    "highest_temperature_recorded": {
+      "season": "Verano",
+      "value": 41.18
+    },
+    "behavior": "La temperatura presenta una estacionalidad clara, con medias mas altas en verano y valores minimos extremos durante invierno."
+  }
+}

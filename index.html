@@ -11,91 +11,821 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
   />
+
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- plotly for interactive charts -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #005eb6 0%, #003d7a 100%);
+      min-height: 100vh;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #005eb6 0%, #003d7a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(244, 52, 65, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(244, 52, 65, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+      padding: 40px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .logo-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      animation: slideIn 0.8s ease-out 0.2s both;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      font-weight: 300;
+      animation: slideIn 0.8s ease-out 0.4s both;
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      opacity: 0.9;
+      animation: slideIn 0.8s ease-out 0.6s both;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 14px 45px;
+      background-color: #f43441;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(244, 52, 65, 0.3);
+      animation: slideIn 0.8s ease-out 0.8s both;
+    }
+
+    .cta-button:hover {
+      background-color: #d92a32;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(244, 52, 65, 0.5);
+      color: white;
+    }
+
+    /* Scrolling Section */
+    .scroll-section {
+      background: white;
+      padding: 80px 40px;
+      position: relative;
+    }
+
+    .container-lg {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #005eb6;
+      margin-bottom: 50px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: #f43441;
+      border-radius: 2px;
+    }
+
+    .info-box {
+      background: #f8f9fa;
+      border-left: 5px solid #005eb6;
+      padding: 25px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .info-box:hover {
+      box-shadow: 0 5px 15px rgba(0, 94, 182, 0.1);
+      transform: translateX(5px);
+    }
+
+    .info-box h5 {
+      color: #005eb6;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .info-box p {
+      color: #555;
+      margin: 0;
+    }
+
+    /* Cards Section */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+
+    .card-item {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      border-top: 4px solid #005eb6;
+    }
+
+    .card-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0, 94, 182, 0.2);
+    }
+
+    .card-item h6 {
+      color: #005eb6;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .card-item p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* List Styling */
+    .custom-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .custom-list li {
+      padding: 12px 0;
+      color: #555;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .custom-list li:last-child {
+      border-bottom: none;
+    }
+
+    .custom-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #f43441;
+      font-weight: bold;
+    }
+
+    /* Tabs Styling */
+    .nav-tabs {
+      border-bottom: 2px solid #005eb6 !important;
+    }
+
+    .nav-tabs .nav-link {
+      color: #005eb6 !important;
+      font-weight: 600;
+      border: none;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      padding: 12px 20px;
+    }
+
+    .nav-tabs .nav-link:hover {
+      border-bottom: 3px solid #f43441;
+      color: #f43441 !important;
+    }
+
+    .nav-tabs .nav-link.active {
+      background-color: transparent !important;
+      color: white !important;
+      border-bottom: 3px solid #f43441 !important;
+      background: linear-gradient(180deg, rgba(244, 52, 65, 0.1) 0%, rgba(244, 52, 65, 0) 100%);
+    }
+
+    .tab-pane {
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    /* Footer Section */
+    .footer-section {
+      background: linear-gradient(135deg, #005eb6 0%, #003d7a 100%);
+      color: white;
+      padding: 50px 40px 30px;
+      text-align: center;
+    }
+
+    .footer-section p {
+      margin: 10px 0;
+      opacity: 0.9;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-10px); }
+    }
+
+    .scroll-indicator svg {
+      width: 30px;
+      height: 30px;
+      fill: white;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      .logo-title {
+        font-size: 2rem;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .cards-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <!-- modal -->
-  <div
-    class="modal fade show"
-    id="modalUGR"
-    tabindex="-1"
-    aria-labelledby="modalUGRLabel"
-    style="display: block; background: rgba(0,0,0,0.6);"
-    aria-modal="true"
-    role="dialog"
-  >
-    <div class="modal-dialog display-flex height-100 width-100 ">
-      <div class="modal-content border-0 shadow-lg">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="logo-title">
+        <i class="fas fa-graduation-cap" style="margin-right: 20px;"></i>
+        Universidad del Gran Rosario
+      </div>
+      <p class="subtitle">Ingeniería del Software</p>
+      <p class="tagline" id="proyecto-dinamico">Introducción a las metodologías y procesos de Ciencia de Datos</p>
 
-        <!-- header -->
-        <div class="modal-header text-white" style="background-color: #005eb6;">
-          <h5 class="modal-title fw-bold" id="modalUGRLabel">
-            Universidad del Gran Rosario - UGR
+      <!-- Contenido Principal en la Primera Diapositiva -->
+      <div style="margin-top: 50px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 40px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.2); max-width: 800px; animation: slideIn 0.8s ease-out 1s both;">
+
+        <div style="margin-bottom: 30px; text-align: left;">
+          <h5 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: #ffdd57;">
+            <i class="fas fa-chalkboard-user" style="margin-right: 10px;"></i>Equipo Docente
           </h5>
+          <p style="margin: 8px 0; opacity: 0.95;">Ing. Ignacio Sanseovich</p>
+          <p style="margin: 8px 0; opacity: 0.95;">Lic. Briant Gauna</p>
         </div>
 
-        <!-- body -->
-        <div class="modal-body bg-white">
+        <hr style="border-color: rgba(255, 255, 255, 0.2); margin: 30px 0;">
 
-          <h4 class="fw-bold mb-3" style="color: #f43441;">
-            Ingeniería del Software
-          </h4>
+        <div style="text-align: left;">
+          <h5 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: #ffdd57;">
+            <i class="fas fa-users" style="margin-right: 10px;"></i>Equipo de Estudiantes
+          </h5>
+          <div style="columns: 2; gap: 20px;">
+            <p style="margin: 6px 0; opacity: 0.95; break-inside: avoid;">Ocanto Victor</p>
+            <p style="margin: 6px 0; opacity: 0.95; break-inside: avoid;">Chamo Ruben</p>
+            <p style="margin: 6px 0; opacity: 0.95; break-inside: avoid;">Negrette Martina</p>
+            <p style="margin: 6px 0; opacity: 0.95; break-inside: avoid;">Rikal Federico</p>
+            <p style="margin: 6px 0; opacity: 0.95; break-inside: avoid;">Aquino Alejandro</p>
+            <p style="margin: 6px 0; opacity: 0.95; break-inside: avoid;">Jazmatie Alejandro</p>
+            <p style="margin: 6px 0; opacity: 0.95; break-inside: avoid;">Torres Santiago</p>
+          </div>
+        </div>
 
-          <p class="mb-2">
-            <strong>Trabajo Práctico</strong>
-          </p>
+      </div>
 
-          <p class="text-secondary mb-4">
-            Introducción a las metodologías y procesos de Ciencia de Datos
-          </p>
+      <a href="#contenido" class="cta-button" style="margin-top: 30px;">
+        Ver Más Detalles <i class="fas fa-arrow-down" style="margin-left: 10px;"></i>
+      </a>
 
-          <div
-            class="p-3 rounded mb-4"
-            style="background-color: #f8f9fa; border-left: 5px solid #005eb6;"
-          >
-            <p class="mb-1">
-              <strong style="color: #005eb6;">Docentes:</strong>
-            </p>
+      <div class="scroll-indicator">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm-7 0c0 .83-.67 1.5-1.5 1.5S4 11.83 4 11s.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+        </svg>
+      </div>
+    </div>
+  </section>
 
-            <p class="mb-0">
-              Ing. Ignacio Sanseovich - Lic. Briant Gauna
-            </p>
+  <!-- Main Content -->
+  <div id="contenido">
+    <!-- Sección del TP - Fases y Contenido -->
+    <section class="scroll-section">
+      <div class="container-lg">
+        <h2 class="section-title">
+          <i class="fas fa-microscope" style="margin-right: 15px;"></i>
+          Trabajo Práctico - Predicción de Heladas
+        </h2>
+
+        <!-- Tabs para navegación -->
+        <ul class="nav nav-tabs mb-4" id="tpTabs" role="tablist" style="border-bottom: 2px solid #005eb6;">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="resumen-tab" data-bs-toggle="tab" data-bs-target="#resumen" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Resumen</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="fase1-tab" data-bs-toggle="tab" data-bs-target="#fase1" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Fase 1: Negocio</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="fase2-tab" data-bs-toggle="tab" data-bs-target="#fase2" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Fase 2: Datos</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="fase3-tab" data-bs-toggle="tab" data-bs-target="#fase3" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Fase 3: Preparación</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="viz-tab" data-bs-toggle="tab" data-bs-target="#viz" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Visualizaciones</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="modelo-tab" data-bs-toggle="tab" data-bs-target="#modelo" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Modelado</button>
+          </li>
+        </ul>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content" id="tpTabContent">
+
+          <!-- Resumen -->
+          <div class="tab-pane fade show active" id="resumen" role="tabpanel">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="info-box">
+                  <h5><i class="fas fa-leaf" style="margin-right: 10px; color: #f43441;"></i>Tema del Proyecto</h5>
+                  <p>Desarrollo de un modelo predictivo de heladas para la región de Córdoba, Argentina, utilizando registros históricos de variables meteorológicas horarias desde 1979.</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="info-box">
+                  <h5><i class="fas fa-cogs" style="margin-right: 10px; color: #f43441;"></i>Metodología</h5>
+                  <p><strong>CRISP-DM</strong> (Cross-Industry Standard Process for Data Mining) - Un estándar de la industria para proyectos de minería de datos con enfoque sistemático.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-lg-6">
+                <div class="info-box">
+                  <h5><i class="fas fa-file-alt" style="margin-right: 10px; color: #f43441;"></i>Entregables</h5>
+                  <ul style="margin: 0; padding-left: 20px;">
+                    <li>Esta notebook completa con análisis</li>
+                    <li>Solución de software implementada</li>
+                    <li>Modelos predictivos</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="info-box">
+                  <h5><i class="fas fa-database" style="margin-right: 10px; color: #f43441;"></i>Fuente de Datos</h5>
+                  <p><strong>OpenWeather:</strong> Registros horarios de variables meteorológicas desde enero de 1979 hasta abril de 2020 para la ciudad de Córdoba.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <h5 class="fw-bold mb-3" style="color: #f43441;">
-            Estudiantes
-          </h5>
+          <!-- Fase 1: Comprensión del Negocio -->
+          <div class="tab-pane fade" id="fase1" role="tabpanel">
+            <h4 class="mb-4" style="color: #005eb6; font-weight: 700;">
+              <i class="fas fa-handshake" style="margin-right: 10px;"></i>Fase 1: Comprensión del Negocio
+            </h4>
 
-          <ul class="list-group">
-            <li class="list-group-item">Ocanto Victor</li>
-            <li class="list-group-item">Chamo Ruben</li>
-            <li class="list-group-item">Negrette Martina</li>
-            <li class="list-group-item">Rikal Federico</li>
-            <li class="list-group-item">Aquino Alejandro</li>
-            <li class="list-group-item">Jazmatie Alejandro</li>
-            <li class="list-group-item">Torres Santiago</li>
-          </ul>
+            <div class="info-box mb-4">
+              <h5><i class="fas fa-exclamation-triangle" style="margin-right: 10px; color: #f43441;"></i>Problema de Negocio</h5>
+              <p>El sector agropecuario de Córdoba enfrenta riesgos significativos por heladas inesperadas que pueden destruir en pocas horas toda una cosecha de frutas (duraznos, ciruelas) y hortalizas (tomates, pimientos, lechuga).</p>
+              <p><strong>Solución propuesta:</strong> Modelo predictivo de heladas con 12-24 horas de anticipación para permitir medidas de protección.</p>
+            </div>
 
-        </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card-item mb-3">
+                  <h6><i class="fas fa-bullseye" style="margin-right: 8px;"></i>Objetivo General</h6>
+                  <p>Desarrollar un modelo que prediga heladas con anticipación suficiente para que productores tomen medidas concretas de protección.</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card-item mb-3">
+                  <h6><i class="fas fa-tasks" style="margin-right: 8px;"></i>Objetivos Específicos</h6>
+                  <ul style="margin: 0; padding-left: 20px; font-size: 0.95rem;">
+                    <li>Explorar y preparar dataset meteorológico</li>
+                    <li>Construir variable objetivo (helada/no helada)</li>
+                    <li>Identificar variables predictivas</li>
+                    <li>Entrenar modelos de clasificación</li>
+                    <li>Validar con datos reales</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
 
-        <!-- footer -->
-        <div class="modal-footer">
+            <div class="info-box mt-4">
+              <h5><i class="fas fa-users-cog" style="margin-right: 10px; color: #f43441;"></i>Stakeholders Clave</h5>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                <div style="padding: 10px; background: #f0f7ff; border-radius: 5px;">
+                  <strong style="color: #005eb6;">👨‍🌾 Productores</strong><br>
+                  <small>Quienes cultivan y corren mayor riesgo</small>
+                </div>
+                <div style="padding: 10px; background: #f0f7ff; border-radius: 5px;">
+                  <strong style="color: #005eb6;">🏢 Cooperativas</strong><br>
+                  <small>Articuladores del sector</small>
+                </div>
+                <div style="padding: 10px; background: #f0f7ff; border-radius: 5px;">
+                  <strong style="color: #005eb6;">📦 Exportadoras</strong><br>
+                  <small>Necesitan previsibilidad</small>
+                </div>
+                <div style="padding: 10px; background: #f0f7ff; border-radius: 5px;">
+                  <strong style="color: #005eb6;">🏪 Mercados</strong><br>
+                  <small>Mayoristas y minoristas</small>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <!-- cambia index.html por tu archivo principal -->
-          <a
-            href="index.html"
-            class="btn text-white fw-bold"
-            style="background-color: #f43441;"
-          >
-            Aceptar
-          </a>
+          <!-- Fase 2: Comprensión de Datos -->
+          <div class="tab-pane fade" id="fase2" role="tabpanel">
+            <h4 class="mb-4" style="color: #005eb6; font-weight: 700;">
+              <i class="fas fa-chart-bar" style="margin-right: 10px;"></i>Fase 2: Comprensión de los Datos
+            </h4>
+
+            <div class="info-box mb-4">
+              <h5><i class="fas fa-download" style="margin-right: 10px; color: #f43441;"></i>Fuentes de Datos</h5>
+              <h6 style="color: #005eb6; margin-top: 15px; margin-bottom: 10px;">Fuente Principal</h6>
+              <p><strong>OpenWeather:</strong> Plataforma de datos meteorológicos globales. Dataset con registros horarios desde 1979 hasta 2020.</p>
+              <h6 style="color: #005eb6; margin-top: 15px; margin-bottom: 10px;">Alternativa Propuesta</h6>
+              <ul style="margin: 0; padding-left: 20px;">
+                <li>API pública de OpenWeather</li>
+                <li>Archivos históricos del SMN (Servicio Meteorológico Nacional)</li>
+                <li>Integración mediante timestamp Unix</li>
+              </ul>
+            </div>
+
+            <div class="info-box mb-4">
+              <h5><i class="fas fa-thermometer-half" style="margin-right: 10px; color: #f43441;"></i>Variables del Dataset</h5>
+              <div style="margin-top: 15px; font-size: 0.95rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                    <strong>Temperatura</strong><br>temp, feels_like, temp_min, temp_max (°C)
+                  </div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                    <strong>Humedad</strong><br>humidity (%)
+                  </div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                    <strong>Presión</strong><br>pressure (hPa)
+                  </div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                    <strong>Viento</strong><br>speed (m/s), direction (0-360°)
+                  </div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                    <strong>Precipitación</strong><br>rain.1h (mm)
+                  </div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                    <strong>Cobertura</strong><br>clouds.all (%)
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-box">
+              <h5><i class="fas fa-bug" style="margin-right: 10px; color: #f43441;"></i>Problemas y Desafíos Identificados</h5>
+              <div style="margin-top: 15px;">
+                <div style="padding: 12px; margin-bottom: 10px; border-left: 4px solid #f43441; background: #fff8f8;">
+                  <strong>Estructura anidada:</strong> Campo 'weather' como lista de diccionarios que requiere normalización.
+                </div>
+                <div style="padding: 12px; margin-bottom: 10px; border-left: 4px solid #f43441; background: #fff8f8;">
+                  <strong>Timestamp como texto:</strong> dt_iso requiere conversión a datetime y ajuste a zona horaria UTC-3.
+                </div>
+                <div style="padding: 12px; margin-bottom: 10px; border-left: 4px solid #f43441; background: #fff8f8;">
+                  <strong>Datos faltantes masivos:</strong> >99% de nulos en rain, snow (se eliminan).
+                </div>
+                <div style="padding: 12px; margin-bottom: 10px; border-left: 4px solid #f43441; background: #fff8f8;">
+                  <strong>Variables constantes:</strong> lat, lon, city_name, timezone (sin variabilidad).
+                </div>
+                <div style="padding: 12px; margin-bottom: 10px; border-left: 4px solid #f43441; background: #fff8f8;">
+                  <strong>Desbalance de clases:</strong> Solo 0.48% de registros con helada.
+                </div>
+                <div style="padding: 12px; border-left: 4px solid #f43441; background: #fff8f8;">
+                  <strong>Dependencia temporal:</strong> Observaciones consecutivas no son independientes.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fase 3: Preparación de Datos -->
+          <div class="tab-pane fade" id="fase3" role="tabpanel">
+            <h4 class="mb-4" style="color: #005eb6; font-weight: 700;">
+              <i class="fas fa-tools" style="margin-right: 10px;"></i>Fase 3: Preparación de los Datos
+            </h4>
+
+            <div class="info-box mb-4">
+              <h5><i class="fas fa-broom" style="margin-right: 10px; color: #f43441;"></i>Estrategia de Limpieza</h5>
+              <div style="margin-top: 15px;">
+                <h6 style="color: #005eb6; margin-bottom: 10px;">1. Parseo de fechas</h6>
+                <p>Conversión de dt_iso a datetime con zona horaria America/Argentina/Cordoba (UTC-3). Extracción de variables temporales: year, month, hour, season.</p>
+
+                <h6 style="color: #005eb6; margin-top: 15px; margin-bottom: 10px;">2. Eliminación de variables sin valor</h6>
+                <p>Se eliminan: rain, snow, snow.1h, rain.3h, lat, lon, city_name, timezone, weather.icon, dt (reemplazado por dt_local).</p>
+
+                <h6 style="color: #005eb6; margin-top: 15px; margin-bottom: 10px;">3. Imputación de datos faltantes</h6>
+                <p>rain.1h: Los valores NaN se reemplazan por 0, asumiendo que la ausencia de registro equivale a ausencia de lluvia.</p>
+
+                <h6 style="color: #005eb6; margin-top: 15px; margin-bottom: 10px;">4. Corrección de inconsistencias</h6>
+                <p>Eliminación de registros con valores fuera de rangos físicos (&lt;0.03% del dataset): presión &lt;860 hPa, viento &gt;360°, humedad fuera de 0-100%.</p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card-item">
+                  <h6><i class="fas fa-check-circle" style="margin-right: 8px;"></i>Variables Relevantes</h6>
+                  <p style="font-size: 0.9rem;">Se mantienen variables con variabilidad temporal: temperatura, humedad, presión, viento, precipitación y cobertura de nubes.</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card-item">
+                  <h6><i class="fas fa-chart-line" style="margin-right: 8px;"></i>Análisis Descriptivo</h6>
+                  <p style="font-size: 0.9rem;">Estadísticas por variable, distribuciones, correlaciones y patrones temporales para identificar relaciones con heladas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualizaciones -->
+          <div class="tab-pane fade" id="viz" role="tabpanel">
+            <h4 class="mb-4" style="color: #005eb6; font-weight: 700;">
+              <i class="fas fa-chart-bar" style="margin-right: 10px;"></i>Análisis Exploratorio de Datos (EDA)
+            </h4>
+
+            <div class="info-box mt-4">
+              <h5><i class="fas fa-folder-open" style="margin-right: 10px; color: #f43441;"></i>Tablas y Gráficos del TP</h5>
+              <p style="margin-bottom: 15px;">Contenido cargado desde <strong>src/tablasydatos</strong> en el orden <code>g1_</code>, <code>g2_</code>, <code>g3_</code>, etc. Las tablas se generan desde JSON y las imágenes se muestran directamente.</p>
+
+              <div class="row">
+                <div class="col-md-6 mb-4" id="g1">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g1</h6>
+                    <p>Resumen EDA</p>
+                    <div id="g1-content" class="small-text"></div>
+                    <a href="src/tablasydatos/g1_tabla_resumen_eda.json" target="_blank" class="btn btn-sm btn-primary">Abrir g1</a>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4" id="g2">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g2</h6>
+                    <p>Estadísticas descriptivas</p>
+                    <div id="g2-table-wrapper"></div>
+                    <a href="src/tablasydatos/g2_tabla_estadisticas_descriptivas.json" target="_blank" class="btn btn-sm btn-primary">Abrir g2</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4" id="g3">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g3</h6>
+                    <p>Histogramas y boxplots</p>
+                    <img src="src/tablasydatos/g3_historigramas%20y%20boxplots%20-%20colocar%20asi%20nomas.png" alt="Gráfico g3" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4" id="g4">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g4</h6>
+                    <p>Frecuencias de heladas</p>
+                    <div id="g4-table-wrapper"></div>
+                    <a href="src/tablasydatos/g4_tabla_frecuencias.json" target="_blank" class="btn btn-sm btn-primary">Abrir g4</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4" id="g5">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g5</h6>
+                    <p>Distribución mensual de heladas</p>
+                    <div id="g5-chart-mini" style="width: 100%; height: 220px;"></div>
+                    <a href="src/tablasydatos/g5_grafico_barra_distribucion_mensual.json" target="_blank" class="btn btn-sm btn-primary">Abrir g5</a>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4" id="g6">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g6</h6>
+                    <p>Estadísticas de temperatura por estación</p>
+                    <div id="g6-table-wrapper"></div>
+                    <a href="src/tablasydatos/g6_tabla_estadisticas_temperatura_estacion.json" target="_blank" class="btn btn-sm btn-primary">Abrir g6</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4" id="g7">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g7</h6>
+                    <p>Distribución de temperaturas por estación</p>
+                    <img src="src/tablasydatos/g7_distribucion_temperaturas_por_Estacion_del_a%C3%B1o.png" alt="Gráfico g7" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4" id="g8">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g8</h6>
+                    <p>Correlación de Pearson</p>
+                    <div id="g8-table-wrapper"></div>
+                    <a href="src/tablasydatos/g8_tabla_correlacion_de_pearson.json" target="_blank" class="btn btn-sm btn-primary">Abrir g8</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4" id="g9">
+                  <div class="card-item" style="padding: 18px;">
+                    <h6>g9</h6>
+                    <p>Conclusiones y heatmap</p>
+                    <div id="g9-text-wrapper" style="margin-bottom: 12px;"></div>
+                    <img src="src/tablasydatos/g9_heatmap_correlacion_variables_climaticas_heladas.png" alt="Gráfico g9" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
+                    <a href="src/tablasydatos/g9_conclusionmodelado.txt" target="_blank" class="btn btn-sm btn-secondary" style="margin-top: 8px; display: inline-block;">Abrir g9_conclusionmodelado</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modelado -->
+          <div class="tab-pane fade" id="modelo" role="tabpanel">
+            <h4 class="mb-4" style="color: #005eb6; font-weight: 700;">
+              <i class="fas fa-brain" style="margin-right: 10px;"></i>Fase 4: Modelado
+            </h4>
+
+            <div class="info-box mb-4">
+              <h5><i class="fas fa-bullseye" style="margin-right: 10px; color: #f43441;"></i>Variable Objetivo</h5>
+              <p><strong>helada</strong> - Variable binaria que indica ocurrencia de heladas (1 si temperatura ≤ 0°C, 0 en caso contrario). Crucial para cumplir el objetivo de predecir heladas anticipadamente.</p>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card-item mb-3">
+                  <h6><i class="fas fa-tree" style="margin-right: 8px;"></i>Random Forest</h6>
+                  <p style="font-size: 0.9rem;"><strong>Algoritmo seleccionado</strong> para clasificación de heladas. Es robusto a relaciones no lineales y desbalance de clases.</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card-item mb-3">
+                  <h6><i class="fas fa-cog" style="margin-right: 8px;"></i>Hiperparámetros</h6>
+                  <p style="font-size: 0.9rem;"><strong>n_estimators=100</strong>, <strong>class_weight='balanced'</strong> para manejar el desbalance de clases (99.5% sin helada).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-box mt-4">
+              <h5><i class="fas fa-star" style="margin-right: 10px; color: #f43441;"></i>Razones para usar Random Forest</h5>
+              <div style="margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                  <div style="padding: 15px; background: #f0f7ff; border-radius: 5px; border-left: 4px solid #005eb6;">
+                    <strong style="color: #005eb6;">No Linealidad</strong><br>
+                    <small>Captura relaciones complejas basadas en umbrales (T ≤ 0°C)</small>
+                  </div>
+                  <div style="padding: 15px; background: #f0f7ff; border-radius: 5px; border-left: 4px solid #005eb6;">
+                    <strong style="color: #005eb6;">Desbalance</strong><br>
+                    <small>Robusto ante 99.5% sin helada vs 0.5% con helada</small>
+                  </div>
+                  <div style="padding: 15px; background: #f0f7ff; border-radius: 5px; border-left: 4px solid #005eb6;">
+                    <strong style="color: #005eb6;">Importancia</strong><br>
+                    <small>Proporciona ranking de qué variables importan más</small>
+                  </div>
+                  <div style="padding: 15px; background: #f0f7ff; border-radius: 5px; border-left: 4px solid #005eb6;">
+                    <strong style="color: #005eb6;">Sobreajuste</strong><br>
+                    <small>Múltiples árboles reducen riesgo de overfitting</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-box mt-4">
+              <h5><i class="fas fa-list" style="margin-right: 10px; color: #f43441;"></i>Features del Modelo</h5>
+              <div style="margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>main.temp</strong> - Temperatura actual</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>main.feels_like</strong> - Sensación térmica</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>main.temp_min</strong> - Temp. mínima</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>main.temp_max</strong> - Temp. máxima</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>main.pressure</strong> - Presión atmosférica</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>main.humidity</strong> - Humedad relativa</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>wind.speed</strong> - Velocidad del viento</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>wind.deg</strong> - Dirección del viento</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>clouds.all</strong> - Cobertura de nubes</small></div>
+                  <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 3px solid #f43441;"><small><strong>rain.1h</strong> - Precipitación horaria</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </div>
 
       </div>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer-section">
+      <div class="container-lg">
+        <h4 style="margin-bottom: 20px;">
+          <i class="fas fa-university" style="margin-right: 10px;"></i>
+          Universidad del Gran Rosario
+        </h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+          <div>
+            <p><strong>Carrera:</strong> Ingeniería del Software</p>
+            <p><strong>Materia:</strong> Ingeniería del Software</p>
+          </div>
+          <div>
+            <p><strong>Tema:</strong> Predicción de Heladas</p>
+            <p><strong>Metodología:</strong> CRISP-DM</p>
+          </div>
+          <div>
+            <p><strong>Sector:</strong> Agropecuario</p>
+            <p><strong>Región:</strong> Córdoba, Argentina</p>
+          </div>
+        </div>
+        <p style="margin-top: 20px; opacity: 0.7;">© 2026 - Todos los derechos reservados</p>
+      </div>
+    </section>
   </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="src/js/script.js"></script>
 
 </body>
 </html>

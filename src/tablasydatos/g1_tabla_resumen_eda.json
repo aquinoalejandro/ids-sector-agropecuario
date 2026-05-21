@@ -1,0 +1,140 @@
+{
+  "tables": {
+    "variables_analisis": [
+      {
+        "categoria": "Numericas Continuas",
+        "variables": [
+          "main.temp",
+          "main.humidity",
+          "main.pressure",
+          "wind.speed",
+          "rain.1h"
+        ],
+        "analisis_estadistico": {
+          "tipo": "descriptivo",
+          "medidas": [
+            "media",
+            "mediana",
+            "desvio_estandar",
+            "cuartiles",
+            "minimo",
+            "maximo"
+          ]
+        },
+        "graficos": [
+          {
+            "tipo": "boxplot",
+            "label": "Diagramas de caja"
+          },
+          {
+            "tipo": "histograma",
+            "label": "Histogramas"
+          }
+        ],
+        "objetivo": "Entender la distribucion y dispersion de las variables climaticas, evaluar su asimetria y detectar posibles valores atipicos (outliers) extremos."
+      },
+      {
+        "categoria": "helada",
+        "descripcion": "Variable Objetivo / Target",
+        "analisis_estadistico": {
+          "tipo": "frecuencias",
+          "medidas": [
+            "frecuencia_absoluta",
+            "frecuencia_relativa",
+            "porcentaje"
+          ]
+        },
+        "graficos": [
+          {
+            "tipo": "bar",
+            "label": "Grafico de Barras de Distribucion Temporal",
+            "detalle": "Countplot por mes"
+          }
+        ],
+        "objetivo": "Cuantificar y evidenciar visualmente el desbalance de clases del problema."
+      },
+      {
+        "categoria": "season_vs_main_temp",
+        "descripcion": "Temporal vs. Numerica",
+        "analisis_estadistico": {
+          "tipo": "agrupado",
+          "medidas": [
+            "media",
+            "mediana"
+          ]
+        },
+        "graficos": [
+          {
+            "tipo": "boxplot_grouped",
+            "label": "Boxplot Agrupado",
+            "detalle": "por estacion del año"
+          }
+        ],
+        "objetivo": "Analizar la estacionalidad de los datos climaticos y confirmar visualmente la distribucion de temperaturas."
+      },
+      {
+        "categoria": "analisis_multivariado",
+        "variables": "todas_las_numericas_mas_helada",
+        "analisis_estadistico": {
+          "tipo": "correlacion",
+          "metodo": "pearson"
+        },
+        "graficos": [
+          {
+            "tipo": "heatmap",
+            "label": "Mapa de Calor",
+            "detalle": "Heatmap de Correlacion"
+          }
+        ],
+        "objetivo": "Identificar que variables meteorologicas tienen mayor asociacion con la ocurrencia de heladas y detectar multicolinealidad."
+      }
+    ]
+  },
+  "charts_examples": {
+    "boxplot_histogramas": {
+      "variables": [
+        "main.temp",
+        "main.humidity",
+        "main.pressure",
+        "wind.speed",
+        "rain.1h"
+      ],
+      "charts": [
+        "boxplot",
+        "histogram"
+      ]
+    },
+    "distribucion_heladas": {
+      "chart": "bar",
+      "xAxis": "mes",
+      "yAxis": "cantidad",
+      "dataset": [
+        {
+          "mes": "Enero",
+          "helada": 5
+        },
+        {
+          "mes": "Febrero",
+          "helada": 3
+        }
+      ]
+    },
+    "season_vs_temp": {
+      "chart": "grouped_boxplot",
+      "xAxis": "season",
+      "yAxis": "main.temp"
+    },
+    "heatmap_correlacion": {
+      "chart": "heatmap",
+      "metodo": "pearson",
+      "variables": [
+        "main.temp",
+        "main.humidity",
+        "main.pressure",
+        "wind.speed",
+        "rain.1h",
+        "helada"
+      ]
+    }
+  }
+}

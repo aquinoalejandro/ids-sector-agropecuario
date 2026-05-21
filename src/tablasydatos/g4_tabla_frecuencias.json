@@ -1,0 +1,49 @@
+{
+  "helada_distribution": {
+    "total_registros": 362330,
+    "categorias": [
+      {
+        "id": 0,
+        "label": "Sin Helada",
+        "frecuencia_absoluta_horas": 360602,
+        "frecuencia_relativa_porcentaje": 99.52
+      },
+      {
+        "id": 1,
+        "label": "Con Helada",
+        "frecuencia_absoluta_horas": 1728,
+        "frecuencia_relativa_porcentaje": 0.48
+      }
+    ]
+  },
+  "charts_ready": {
+    "pie_chart": [
+      {
+        "name": "Sin Helada",
+        "value": 360602
+      },
+      {
+        "name": "Con Helada",
+        "value": 1728
+      }
+    ],
+    "bar_chart": [
+      {
+        "categoria": "Sin Helada",
+        "cantidad": 360602,
+        "porcentaje": 99.52
+      },
+      {
+        "categoria": "Con Helada",
+        "cantidad": 1728,
+        "porcentaje": 0.48
+      }
+    ]
+  },
+  "insights": {
+    "dataset_desbalanceado": true,
+    "clase_mayoritaria": "Sin Helada",
+    "clase_minoritaria": "Con Helada",
+    "ratio_aproximado": "209:1"
+  }
+}

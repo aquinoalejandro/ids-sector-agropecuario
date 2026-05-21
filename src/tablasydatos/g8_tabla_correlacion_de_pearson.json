@@ -1,0 +1,56 @@
+[
+  {
+    "variable": "main.temp",
+    "main_temp": 1.000,
+    "main_humidity": -0.338,
+    "main_pressure": -0.595,
+    "wind_speed": 0.324,
+    "rain_1h": 0.014,
+    "helada": -0.181
+  },
+  {
+    "variable": "main.humidity",
+    "main_temp": -0.338,
+    "main_humidity": 1.000,
+    "main_pressure": -0.004,
+    "wind_speed": -0.454,
+    "rain_1h": 0.046,
+    "helada": 0.039
+  },
+  {
+    "variable": "main.pressure",
+    "main_temp": -0.595,
+    "main_humidity": -0.004,
+    "main_pressure": 1.000,
+    "wind_speed": -0.154,
+    "rain_1h": -0.023,
+    "helada": 0.136
+  },
+  {
+    "variable": "wind.speed",
+    "main_temp": 0.324,
+    "main_humidity": -0.454,
+    "main_pressure": -0.154,
+    "wind_speed": 1.000,
+    "rain_1h": -0.004,
+    "helada": -0.042
+  },
+  {
+    "variable": "rain.1h",
+    "main_temp": 0.014,
+    "main_humidity": 0.046,
+    "main_pressure": -0.023,
+    "wind_speed": -0.004,
+    "rain_1h": 1.000,
+    "helada": -0.004
+  },
+  {
+    "variable": "helada",
+    "main_temp": -0.181,
+    "main_humidity": 0.039,
+    "main_pressure": 0.136,
+    "wind_speed": -0.042,
+    "rain_1h": -0.004,
+    "helada": 1.000
+  }
+]

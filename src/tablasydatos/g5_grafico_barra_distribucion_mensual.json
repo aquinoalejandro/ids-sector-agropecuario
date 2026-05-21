@@ -1,0 +1,123 @@
+{
+  "monthly_frost_distribution": [
+    {
+      "mes": "Ene",
+      "horas_helada": 0
+    },
+    {
+      "mes": "Feb",
+      "horas_helada": 0
+    },
+    {
+      "mes": "Mar",
+      "horas_helada": 0
+    },
+    {
+      "mes": "Abr",
+      "horas_helada": 0
+    },
+    {
+      "mes": "May",
+      "horas_helada": 59
+    },
+    {
+      "mes": "Jun",
+      "horas_helada": 477
+    },
+    {
+      "mes": "Jul",
+      "horas_helada": 908
+    },
+    {
+      "mes": "Ago",
+      "horas_helada": 257
+    },
+    {
+      "mes": "Sep",
+      "horas_helada": 27
+    },
+    {
+      "mes": "Oct",
+      "horas_helada": 0
+    },
+    {
+      "mes": "Nov",
+      "horas_helada": 0
+    },
+    {
+      "mes": "Dic",
+      "horas_helada": 0
+    }
+  ],
+  "charts_ready": {
+    "bar_chart": {
+      "xAxis": "mes",
+      "yAxis": "horas_helada",
+      "data": [
+        {
+          "mes": "Ene",
+          "value": 0
+        },
+        {
+          "mes": "Feb",
+          "value": 0
+        },
+        {
+          "mes": "Mar",
+          "value": 0
+        },
+        {
+          "mes": "Abr",
+          "value": 0
+        },
+        {
+          "mes": "May",
+          "value": 59
+        },
+        {
+          "mes": "Jun",
+          "value": 477
+        },
+        {
+          "mes": "Jul",
+          "value": 908
+        },
+        {
+          "mes": "Ago",
+          "value": 257
+        },
+        {
+          "mes": "Sep",
+          "value": 27
+        },
+        {
+          "mes": "Oct",
+          "value": 0
+        },
+        {
+          "mes": "Nov",
+          "value": 0
+        },
+        {
+          "mes": "Dic",
+          "value": 0
+        }
+      ]
+    }
+  },
+  "insights": {
+    "mes_mayor_helada": {
+      "mes": "Jul",
+      "cantidad": 908
+    },
+    "meses_con_helada": [
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep"
+    ],
+    "estacion_predominante": "Invierno",
+    "comportamiento": "La mayor concentracion de eventos de helada ocurre durante el invierno austral, con un pico marcado en julio."
+  }
+}

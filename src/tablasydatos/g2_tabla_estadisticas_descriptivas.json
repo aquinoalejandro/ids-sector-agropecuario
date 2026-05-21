@@ -1,0 +1,125 @@
+{
+  "estadisticas_descriptivas": {
+    "main.temp": {
+      "count": 362330,
+      "mean": 17.27,
+      "std": 7.13,
+      "min": -5.95,
+      "q1_25": 12.24,
+      "median_50": 17.54,
+      "q3_75": 22.14,
+      "max": 41.18
+    },
+    "main.humidity": {
+      "count": 362330,
+      "mean": 66.54,
+      "std": 21.29,
+      "min": 3.00,
+      "q1_25": 51.00,
+      "median_50": 69.00,
+      "q3_75": 85.00,
+      "max": 100.00
+    },
+    "main.pressure": {
+      "count": 362330,
+      "mean": 1015.17,
+      "std": 6.65,
+      "min": 861.00,
+      "q1_25": 1011.00,
+      "median_50": 1015.00,
+      "q3_75": 1019.00,
+      "max": 1054.00
+    },
+    "wind.speed": {
+      "count": 362330,
+      "mean": 3.56,
+      "std": 2.45,
+      "min": 0.01,
+      "q1_25": 1.78,
+      "median_50": 2.64,
+      "q3_75": 4.60,
+      "max": 33.40
+    },
+    "rain.1h": {
+      "count": 362330,
+      "mean": 0.02,
+      "std": 0.28,
+      "min": 0.00,
+      "q1_25": 0.00,
+      "median_50": 0.00,
+      "q3_75": 0.00,
+      "max": 44.45
+    }
+  },
+  "charts_ready": {
+    "boxplot_dataset": [
+      {
+        "variable": "main.temp",
+        "min": -5.95,
+        "q1": 12.24,
+        "median": 17.54,
+        "q3": 22.14,
+        "max": 41.18
+      },
+      {
+        "variable": "main.humidity",
+        "min": 3.00,
+        "q1": 51.00,
+        "median": 69.00,
+        "q3": 85.00,
+        "max": 100.00
+      },
+      {
+        "variable": "main.pressure",
+        "min": 861.00,
+        "q1": 1011.00,
+        "median": 1015.00,
+        "q3": 1019.00,
+        "max": 1054.00
+      },
+      {
+        "variable": "wind.speed",
+        "min": 0.01,
+        "q1": 1.78,
+        "median": 2.64,
+        "q3": 4.60,
+        "max": 33.40
+      },
+      {
+        "variable": "rain.1h",
+        "min": 0.00,
+        "q1": 0.00,
+        "median": 0.00,
+        "q3": 0.00,
+        "max": 44.45
+      }
+    ],
+    "mean_std_dataset": [
+      {
+        "variable": "main.temp",
+        "mean": 17.27,
+        "std": 7.13
+      },
+      {
+        "variable": "main.humidity",
+        "mean": 66.54,
+        "std": 21.29
+      },
+      {
+        "variable": "main.pressure",
+        "mean": 1015.17,
+        "std": 6.65
+      },
+      {
+        "variable": "wind.speed",
+        "mean": 3.56,
+        "std": 2.45
+      },
+      {
+        "variable": "rain.1h",
+        "mean": 0.02,
+        "std": 0.28
+      }
+    ]
+  }
+}
