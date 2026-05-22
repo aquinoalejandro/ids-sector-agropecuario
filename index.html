@@ -18,6 +18,10 @@
   <!-- plotly for interactive charts -->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+  <!-- MathJax para ecuaciones LaTeX -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
   <style>
     * {
       margin: 0;
@@ -210,6 +214,68 @@
       box-shadow: 0 10px 30px rgba(0, 94, 182, 0.2);
     }
 
+    .card-item img {
+      transition: box-shadow 0.25s ease;
+      cursor: zoom-in;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .card-item img:hover {
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.88);
+      z-index: 1050;
+      padding: 24px;
+    }
+
+    .image-lightbox.visible {
+      display: flex;
+    }
+
+    .image-lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform 0.25s ease;
+      cursor: zoom-in;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .image-lightbox img.zoomed {
+      transform: scale(2);
+      cursor: zoom-out;
+    }
+
+    .image-lightbox-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+
+    .image-lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
     .card-item h6 {
       color: #005eb6;
       font-weight: 700;
@@ -277,6 +343,30 @@
 
     .tab-pane {
       animation: fadeInUp 0.5s ease-out;
+    }
+
+    .viz-panel {
+      display: none;
+    }
+
+    .viz-panel.active {
+      display: block;
+    }
+
+    #viz-selector .list-group-item {
+      border-radius: 10px;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    #viz-selector .list-group-item.active {
+      background-color: #005eb6;
+      border-color: #005eb6;
+      color: #fff;
+    }
+
+    #viz-selector .list-group-item:hover {
+      background-color: rgba(0, 94, 182, 0.08);
     }
 
     /* Footer Section */
@@ -379,11 +469,7 @@
         Ver Más Detalles <i class="fas fa-arrow-down" style="margin-left: 10px;"></i>
       </a>
 
-      <div class="scroll-indicator">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm-7 0c0 .83-.67 1.5-1.5 1.5S4 11.83 4 11s.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
-        </svg>
-      </div>
+
     </div>
   </section>
 
@@ -415,7 +501,7 @@
             <button class="nav-link" id="viz-tab" data-bs-toggle="tab" data-bs-target="#viz" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Visualizaciones</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="modelo-tab" data-bs-toggle="tab" data-bs-target="#modelo" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Modelado</button>
+            <button class="nav-link" id="modelo-tab" data-bs-toggle="tab" data-bs-target="#modelo" type="button" role="tab" style="color: #005eb6; font-weight: 600;">Fase 4: Modelado</button>
           </li>
         </ul>
 
@@ -446,7 +532,6 @@
                   <ul style="margin: 0; padding-left: 20px;">
                     <li>Esta notebook completa con análisis</li>
                     <li>Solución de software implementada</li>
-                    <li>Modelos predictivos</li>
                   </ul>
                 </div>
               </div>
@@ -631,90 +716,72 @@
 
             <div class="info-box mt-4">
               <h5><i class="fas fa-folder-open" style="margin-right: 10px; color: #f43441;"></i>Tablas y Gráficos del TP</h5>
-              <p style="margin-bottom: 15px;">Contenido cargado desde <strong>src/tablasydatos</strong> en el orden <code>g1_</code>, <code>g2_</code>, <code>g3_</code>, etc. Las tablas se generan desde JSON y las imágenes se muestran directamente.</p>
 
               <div class="row">
-                <div class="col-md-6 mb-4" id="g1">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g1</h6>
-                    <p>Resumen EDA</p>
+                <div class="col-lg-4 mb-4">
+                  <div class="list-group" id="viz-selector">
+                    <button type="button" class="list-group-item list-group-item-action active" data-panel="g1-panel">Resumen EDA</button>
+                    <button type="button" class="list-group-item list-group-item-action" data-panel="g2-panel">Estadísticas descriptivas</button>
+                    <button type="button" class="list-group-item list-group-item-action" data-panel="g3-panel">Histogramas y boxplots</button>
+                    <button type="button" class="list-group-item list-group-item-action" data-panel="g4-panel">Frecuencias de heladas</button>
+                    <button type="button" class="list-group-item list-group-item-action" data-panel="g5-panel">Distribución mensual</button>
+                    <button type="button" class="list-group-item list-group-item-action" data-panel="g6-panel">Temperatura por estación</button>
+                    <button type="button" class="list-group-item list-group-item-action" data-panel="g7-panel">Distribución por estación</button>
+                    <button type="button" class="list-group-item list-group-item-action" data-panel="g8-panel">Correlación de Pearson</button>
+                    <button type="button" class="list-group-item list-group-item-action" data-panel="g9-panel">Correlación de Variables Climáticas y Heladas</button>
+                  </div>
+                </div>
+                <div class="col-lg-8">
+                  <div class="card-item p-4 viz-panel active" id="g1-panel">
+                    <h5>Resumen EDA</h5>
+                    <p class="text-muted">Tabla que resume el plan de análisis exploratorio del dataset.</p>
                     <div id="g1-content" class="small-text"></div>
-                    <a href="src/tablasydatos/g1_tabla_resumen_eda.json" target="_blank" class="btn btn-sm btn-primary">Abrir g1</a>
+
                   </div>
-                </div>
-                <div class="col-md-6 mb-4" id="g2">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g2</h6>
-                    <p>Estadísticas descriptivas</p>
+                  <div class="card-item p-4 viz-panel" id="g2-panel">
+                    <h5>Estadísticas descriptivas</h5>
+                    <p class="text-muted">Tabla de estadísticos clave por variable.</p>
                     <div id="g2-table-wrapper"></div>
-                    <a href="src/tablasydatos/g2_tabla_estadisticas_descriptivas.json" target="_blank" class="btn btn-sm btn-primary">Abrir g2</a>
-                  </div>
-                </div>
-              </div>
 
-              <div class="row">
-                <div class="col-md-6 mb-4" id="g3">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g3</h6>
-                    <p>Histogramas y boxplots</p>
-                    <img src="src/tablasydatos/g3_historigramas%20y%20boxplots%20-%20colocar%20asi%20nomas.png" alt="Gráfico g3" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
                   </div>
-                </div>
-                <div class="col-md-6 mb-4" id="g4">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g4</h6>
-                    <p>Frecuencias de heladas</p>
+                  <div class="card-item p-4 viz-panel" id="g3-panel">
+                    <h5>Histogramas y boxplots</h5>
+                    <p class="text-muted">Visualización de la distribución y los outliers de las variables numéricas.</p>
+                    <img src="src/tablasydatos/g3_historigramas%20y%20boxplots%20-%20colocar%20asi%20nomas.png" alt="Histograma y boxplot" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
+                  </div>
+                  <div class="card-item p-4 viz-panel" id="g4-panel">
+                    <h5>Frecuencias de heladas</h5>
+                    <p class="text-muted">Tabla que muestra la frecuencia absoluta y relativa de heladas.</p>
                     <div id="g4-table-wrapper"></div>
-                    <a href="src/tablasydatos/g4_tabla_frecuencias.json" target="_blank" class="btn btn-sm btn-primary">Abrir g4</a>
-                  </div>
-                </div>
-              </div>
 
-              <div class="row">
-                <div class="col-md-6 mb-4" id="g5">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g5</h6>
-                    <p>Distribución mensual de heladas</p>
-                    <div id="g5-chart-mini" style="width: 100%; height: 220px;"></div>
-                    <a href="src/tablasydatos/g5_grafico_barra_distribucion_mensual.json" target="_blank" class="btn btn-sm btn-primary">Abrir g5</a>
                   </div>
-                </div>
-                <div class="col-md-6 mb-4" id="g6">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g6</h6>
-                    <p>Estadísticas de temperatura por estación</p>
+                  <div class="card-item p-4 viz-panel" id="g5-panel">
+                    <h5>Distribución mensual de heladas</h5>
+                    <p class="text-muted">Gráfico de barras que muestra cómo se distribuyen las heladas a lo largo del año.</p>
+                    <div id="g5-chart-mini" style="width: 100%; height: 320px;"></div>
+
+                  </div>
+                  <div class="card-item p-4 viz-panel" id="g6-panel">
+                    <h5>Estadísticas de temperatura por estación</h5>
+                    <p class="text-muted">Tabla con medidas de temperatura para cada estación del año.</p>
                     <div id="g6-table-wrapper"></div>
-                    <a href="src/tablasydatos/g6_tabla_estadisticas_temperatura_estacion.json" target="_blank" class="btn btn-sm btn-primary">Abrir g6</a>
                   </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6 mb-4" id="g7">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g7</h6>
-                    <p>Distribución de temperaturas por estación</p>
-                    <img src="src/tablasydatos/g7_distribucion_temperaturas_por_Estacion_del_a%C3%B1o.png" alt="Gráfico g7" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
+                  <div class="card-item p-4 viz-panel" id="g7-panel">
+                    <h5>Distribución de temperaturas por estación</h5>
+                    <p class="text-muted">Gráfico que compara las temperaturas según estación del año.</p>
+                    <img src="src/tablasydatos/g7_distribucion_temperaturas_por_Estacion_del_a%C3%B1o.png" alt="Distribución temperaturas" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
                   </div>
-                </div>
-                <div class="col-md-6 mb-4" id="g8">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g8</h6>
-                    <p>Correlación de Pearson</p>
+                  <div class="card-item p-4 viz-panel" id="g8-panel">
+                    <h5>Correlación de Pearson</h5>
+                    <p class="text-muted">Tabla que resume la correlación entre variables clave.</p>
                     <div id="g8-table-wrapper"></div>
-                    <a href="src/tablasydatos/g8_tabla_correlacion_de_pearson.json" target="_blank" class="btn btn-sm btn-primary">Abrir g8</a>
-                  </div>
-                </div>
-              </div>
 
-              <div class="row">
-                <div class="col-md-6 mb-4" id="g9">
-                  <div class="card-item" style="padding: 18px;">
-                    <h6>g9</h6>
-                    <p>Conclusiones y heatmap</p>
+                  </div>
+                  <div class="card-item p-4 viz-panel" id="g9-panel">
+                    <h5>Correlación entre Variables Climáticas y Heladas</h5>
+
                     <div id="g9-text-wrapper" style="margin-bottom: 12px;"></div>
-                    <img src="src/tablasydatos/g9_heatmap_correlacion_variables_climaticas_heladas.png" alt="Gráfico g9" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
-                    <a href="src/tablasydatos/g9_conclusionmodelado.txt" target="_blank" class="btn btn-sm btn-secondary" style="margin-top: 8px; display: inline-block;">Abrir g9_conclusionmodelado</a>
+                    <img src="src/tablasydatos/g9_heatmap_correlacion_variables_climaticas_heladas.png" alt="Heatmap de correlación" style="width: 100%; border-radius: 12px; border: 1px solid #dde3ea; background: #fff;" />
                   </div>
                 </div>
               </div>
@@ -804,16 +871,8 @@
         </h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
           <div>
-            <p><strong>Carrera:</strong> Ingeniería del Software</p>
+            <p><strong>Carrera:</strong> Ciclo de Licenciatura en Ciencias de Datos</p>
             <p><strong>Materia:</strong> Ingeniería del Software</p>
-          </div>
-          <div>
-            <p><strong>Tema:</strong> Predicción de Heladas</p>
-            <p><strong>Metodología:</strong> CRISP-DM</p>
-          </div>
-          <div>
-            <p><strong>Sector:</strong> Agropecuario</p>
-            <p><strong>Región:</strong> Córdoba, Argentina</p>
           </div>
         </div>
         <p style="margin-top: 20px; opacity: 0.7;">© 2026 - Todos los derechos reservados</p>
@@ -822,6 +881,12 @@
   </div>
 
   <!-- Bootstrap JS -->
+  <!-- Image Lightbox -->
+  <div id="image-lightbox" class="image-lightbox" aria-hidden="true" role="dialog" tabindex="-1">
+    <button id="lightbox-close" class="image-lightbox-close" aria-label="Cerrar">×</button>
+    <img id="lightbox-img" src="" alt="Imagen ampliada">
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Custom JS -->

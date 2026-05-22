@@ -1,5 +1,5 @@
 // Títulos dinámicos en la página
-const titulos = ["Ingeniería de Software", "Sector Agropecuario", "Minería de Datos"];
+const titulos = ["Trabajo práctico", "Predicción de Heladas", "Análisis de Datos Climáticos", "Introducción a las metodologías y procesos de Ciencia de Datos"];
 let indice = 0;
 
 const actualizarTitulos = () => {
@@ -88,7 +88,97 @@ async function fetchText(path) {
 window.addEventListener('load', async () => {
   await cargarDatosTP();
   crearGraficos();
+  initVizSelector();
+  initImageZoom();
 });
+
+function initVizSelector() {
+  const buttons = document.querySelectorAll('#viz-selector [data-panel]');
+  const panels = document.querySelectorAll('.viz-panel');
+  if (!buttons.length || !panels.length) return;
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const panelId = button.dataset.panel;
+      buttons.forEach(item => item.classList.remove('active'));
+      panels.forEach(panel => panel.classList.toggle('active', panel.id === panelId));
+      button.classList.add('active');
+    });
+  });
+}
+
+function initImageZoom() {
+  const images = document.querySelectorAll('#viz img');
+  const lightbox = document.getElementById('image-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const closeBtn = document.getElementById('lightbox-close');
+
+  if (!lightbox || !lightboxImg || !closeBtn) return;
+
+  const openLightbox = (src, alt) => {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || 'Vista ampliada';
+    lightboxImg.classList.remove('zoomed');
+    lightboxImg.style.transformOrigin = 'center center';
+    lightbox.classList.add('visible');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove('visible');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    lightboxImg.classList.remove('zoomed');
+    lightboxImg.style.transformOrigin = 'center center';
+  };
+
+  const toggleZoom = (event) => {
+    event.stopPropagation();
+    const img = lightboxImg;
+    const rect = img.getBoundingClientRect();
+    const offsetX = event.clientX - rect.left;
+    const offsetY = event.clientY - rect.top;
+    const posX = (offsetX / rect.width) * 100;
+    const posY = (offsetY / rect.height) * 100;
+
+    if (img.classList.contains('zoomed')) {
+      img.classList.remove('zoomed');
+      img.style.transformOrigin = 'center center';
+    } else {
+      img.classList.add('zoomed');
+      img.style.transformOrigin = `${posX}% ${posY}%`;
+    }
+  };
+
+
+  const vizContainer = document.getElementById('viz');
+  if (vizContainer) {
+    vizContainer.addEventListener('click', (e) => {
+      const clicked = e.target;
+      if (clicked && clicked.tagName === 'IMG') {
+        openLightbox(clicked.src, clicked.alt);
+      }
+    });
+  } else {
+    images.forEach(img => {
+      img.addEventListener('click', () => openLightbox(img.src, img.alt));
+    });
+  }
+
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  closeBtn.addEventListener('click', (event) => {
+    event.stopPropagation();
+    closeLightbox();
+  });
+
+  lightboxImg.addEventListener('click', toggleZoom);
+}
 
 async function cargarDatosTP() {
   const [g1, g2, g4, g5, g6, g8, g9] = await Promise.all([
@@ -98,7 +188,7 @@ async function cargarDatosTP() {
     fetchJson('src/tablasydatos/g5_grafico_barra_distribucion_mensual.json'),
     fetchJson('src/tablasydatos/g6_tabla_estadisticas_temperatura_estacion.json'),
     fetchJson('src/tablasydatos/g8_tabla_correlacion_de_pearson.json'),
-    fetchText('src/tablasydatos/g9_conclusionmodelado.txt')
+
   ]);
 
   tpData.g1 = g1;
@@ -127,19 +217,41 @@ function renderG1(data) {
     return;
   }
 
-  wrapper.innerHTML = categorias.map(item => {
-    const nombre = item.categoria || item.descripcion || 'Categoría';
-    const objetivo = item.objetivo ? `<strong>Objetivo:</strong> ${item.objetivo}` : '';
-    const grafico = item.graficos?.map(g => g.label).join(', ');
+  const rows = categorias.map(item => {
+    const variables = item.variables
+      ? Array.isArray(item.variables)
+        ? item.variables.join(', ')
+        : item.variables
+      : '-';
+    const analisis = item.analisis_estadistico
+      ? `${item.analisis_estadistico.tipo || ''}${item.analisis_estadistico.medidas ? ` (${item.analisis_estadistico.medidas.join(', ')})` : ''}`
+      : '-';
+    const graficos = item.graficos?.map(g => g.label || g.tipo).join(', ') || '-';
     return `
-      <div style="margin-bottom: 12px;">
-        <strong>${nombre}</strong><br>
-        ${item.descripcion ? `<span>${item.descripcion}</span><br>` : ''}
-        ${objetivo}<br>
-        <small style="color: #555;">Gráficos: ${grafico || 'N/A'}</small>
-      </div>
+      <tr>
+        <td>${item.categoria || item.descripcion || 'N/A'}</td>
+        <td>${analisis}</td>
+        <td>${graficos}</td>
+        <td>${item.objetivo || '-'}</td>
+      </tr>
     `;
   }).join('');
+
+  wrapper.innerHTML = `
+    <div style="overflow-x:auto;">
+      <table class="table table-sm table-striped" style="margin-bottom: 0;">
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>Análisis estadístico</th>
+            <th>Gráficos</th>
+            <th>Objetivo</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
 }
 
 function renderG2(data) {
@@ -303,8 +415,44 @@ function renderG8(data) {
 function renderG9(text) {
   const wrapper = document.getElementById('g9-text-wrapper');
   if (!wrapper) return;
-  wrapper.innerHTML = `<pre style="white-space: pre-wrap; font-size: 0.87rem; color: #333; background:#f8f9fa; padding: 10px; border-radius: 8px;">${text}</pre>`;
+
+  // Dividir en líneas y procesar cada una
+  const lines = text.split('\n').map(line => {
+    line = line.trim();
+    if (!line) return '<br>';
+
+    // Listas numeradas: "1. ..."
+    if (/^\d+\.\s/.test(line)) {
+      return `<li style="margin-left: 20px; margin-bottom: 8px;">${parseTextFormatting(line.replace(/^\d+\.\s/, ''))}</li>`;
+    }
+    // Títulos (líneas que terminan con :)
+    if (line.endsWith(':') && line.length > 2) {
+      return `<h6 style="color: #005eb6; margin-top: 15px; margin-bottom: 10px; font-weight: 700;">${parseTextFormatting(line)}</h6>`;
+    }
+    // Párrafos normales
+    return `<p style="margin-bottom: 10px;">${parseTextFormatting(line)}</p>`;
+  }).join('\n');
+
+  // Envolver listas numeradas en <ul>
+  const htmlWithLists = lines.replace(
+    /(<li[^>]*>[\s\S]*?<\/li>)/g,
+    '<ul style="list-style: none; padding: 0; margin: 15px 0;">$1</ul>'
+  );
+
+  wrapper.innerHTML = `
+    <div style="font-size: 0.95rem; color: #333; line-height: 1.7; background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #005eb6; text-align: left;">
+      ${htmlWithLists}
+    </div>
+  `;
+
+  // Re-renderizar ecuaciones LaTeX
+  if (window.MathJax) {
+    MathJax.typesetPromise([wrapper]).catch(err => console.warn('MathJax error:', err));
+  }
 }
+
+
+
 
 function crearGraficos() {
   if (tpData.g5?.monthly_frost_distribution) {

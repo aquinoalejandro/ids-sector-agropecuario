@@ -2,14 +2,7 @@
   "tables": {
     "variables_analisis": [
       {
-        "categoria": "Numericas Continuas",
-        "variables": [
-          "main.temp",
-          "main.humidity",
-          "main.pressure",
-          "wind.speed",
-          "rain.1h"
-        ],
+        "categoria": "Numericas Continuas (main.temp, main.humidity, main.pressure, wind.speed, rain.1h)",
         "analisis_estadistico": {
           "tipo": "descriptivo",
           "medidas": [
@@ -34,8 +27,7 @@
         "objetivo": "Entender la distribucion y dispersion de las variables climaticas, evaluar su asimetria y detectar posibles valores atipicos (outliers) extremos."
       },
       {
-        "categoria": "helada",
-        "descripcion": "Variable Objetivo / Target",
+        "categoria": "helada (Variable Objetivo / Target)",
         "analisis_estadistico": {
           "tipo": "frecuencias",
           "medidas": [
@@ -54,7 +46,7 @@
         "objetivo": "Cuantificar y evidenciar visualmente el desbalance de clases del problema."
       },
       {
-        "categoria": "season_vs_main_temp",
+        "categoria": "season vs main_temp (Temporal vs. Numerica)",
         "descripcion": "Temporal vs. Numerica",
         "analisis_estadistico": {
           "tipo": "agrupado",
@@ -73,8 +65,8 @@
         "objetivo": "Analizar la estacionalidad de los datos climaticos y confirmar visualmente la distribucion de temperaturas."
       },
       {
-        "categoria": "analisis_multivariado",
-        "variables": "todas_las_numericas_mas_helada",
+        "categoria": "Todas las numéricas + helada (Análisis Multivariado)",
+
         "analisis_estadistico": {
           "tipo": "correlacion",
           "metodo": "pearson"

@@ -1,9 +1,0 @@
-Al observar la matriz de correlación, resulta contraintuitivo notar que la relación entre la temperatura actual (`main.temp`) y la ocurrencia de heladas (`helada`) arroja un coeficiente de Pearson de apenas **-0.181**, especialmente sabiendo que la helada es un fenómeno dependiente de la temperatura.
-
-Este comportamiento indica dos cosas que tenemos que tener presente en etapas futuras:
-1. **Relación No Lineal:** Pearson asume proporcionalidad lineal, pero la helada responde a una función de umbral (Temperatura $\le$ 0°C).
-2. **Efecto del Desbalance:** El 99.5% de las horas no registran heladas. Las grandes fluctuaciones de temperatura en esos períodos "normales" diluyen la covarianza matemática, acercando el coeficiente a cero.
-
-**Conclusión para el Modelado (Fase 4):**
-
- Esta falta de linealidad justifica descartar modelos de regresión simples y optar por **algoritmos basados en árboles (Random Forest, XGBoost)**, los cuales son óptimos para detectar "puntos de corte" (como el 0°C) y lidiar con clases desbalanceadas.
